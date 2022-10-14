@@ -4,7 +4,7 @@ public class TP2 {
 
     public static void discriminant() {
         Scanner scanner = new Scanner(System.in);
-
+        System.out.println("\nPremier exercice");
         System.out.println("Quelle est la valeur de a ?");
         int a = scanner.nextInt();
 
@@ -32,6 +32,7 @@ public class TP2 {
     }
     public static void parite() {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("\nDeuxième exercice");
         System.out.println("Entrez un entier ");
         int entier = scanner.nextInt();
 
@@ -45,20 +46,22 @@ public class TP2 {
     }
     public static void max() {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("\nTroisième exercice");
         System.out.println("Saisir un premier entier ");
         int a = scanner.nextInt();
 
         System.out.println("Saisir un deuxième nombre entier ");
         int b = scanner.nextInt();
         if (a > b) {
-            System.out.println(a +"est supérieur à " + b );
+            System.out.println(a +" est supérieur à " + b );
         }
         else if (a< b ) {
-            System.out.println(b + "est supérieur à " + a);
+            System.out.println(b + " est supérieur à " + a);
         }}
 
     public static void min() {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("\nQuatrième exercice");
         System.out.println("Saisir un premier entier ");
         int a = scanner.nextInt();
 
@@ -68,56 +71,54 @@ public class TP2 {
             System.out.println( a + " est inférieur à " +b );
         }
         else if (a> b ) {
-            System.out.println(b + " est inférieur à"+  a);
+            System.out.println(b + " est inférieur à "+  a);
         }
     }
-    public static void egaliteStr() {
+        public static void egaliteStr() {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("\nCinquième exercice");
+            System.out.println("Saisir une chaine de caractères ");
+            String a = scanner.next();
+
+            System.out.println("Saisir une deuxième chaine de caractères ");
+            String b = scanner.next();
+            boolean test = a.equals(b);
+
+            System.out.println(test );
+
+            if (test == true)
+                System.out.println("Ces chaines de caractère sont égales ");
+            else if (test == false)
+                System.out.println("Ces chaines de caractère ne sont pas égales ");
+            }
+
+    public static void factorielle()
+    {
+        int factorielle = 1;
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Saisir une chaine de caractères ");
-        String a = scanner.next();
-
-        System.out.println("Saisir une deuxième chaine de caractères ");
-        String b = scanner.next();
-        boolean test = a.equals(b);
-
-        System.out.println(test );
-
-        if (test == true)
-            System.out.println("Ces chaines sont égales ");
-        else if (test == false)
-            System.out.println("Ces chaines ne sont pas égales ");
-    }
-
-    public static void factorielle() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Saisir un entier positif ou nul");
+        System.out.println("\nSixième exercice");
+        System.out.print("Saisir un entier positif ou nul");
         int n = scanner.nextInt();
-
-        for (int i = 0; i <= n; i++) {
-            int factorielle = 1;
+        for (int i = 1; i <= n; i++)
+        {
             factorielle *= i;
-            System.out.println(n + "! = " + factorielle);
-
         }
+        System.out.println(n + "! = " + factorielle);
     }
+
+
+
+
 
     public static void main(String[] args) {
-        //  discriminant();
-        //parite();
-        //max();
-        //  min();
-        //     egaliteStr();
+        discriminant();
+        parite();
+        max();
+         min();
+        egaliteStr();
         factorielle();
     }
 
-        /* tableau
-        // Si on connait tous les elements
-        int[] tableauConnu = {4, 1, -1, 0};
-        int unElement = tableauConnu[3];
-// Si on ne connait que la taille
-        String[] tableauInconnu = new String[4];*/
-
-    //Calculer le discriminant
 
 
 }
