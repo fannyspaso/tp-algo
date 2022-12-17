@@ -68,6 +68,7 @@ public class Healer extends SpellCaster{
 
     @Override
     public void fight(Combatant combatant){
+        combatant.Pertepv(this.weapon.getDps());
     }
 
 

@@ -109,7 +109,7 @@ public class Game {
 
                                     } else {
                                         System.out.println("Le héros doit être un mage ou un healer");
-                                }
+                                    }
 
                                     break;
 
@@ -119,69 +119,69 @@ public class Game {
                             }
                     }
 
-                            if (fighter.getPointsvie() > ennemiis.getPointsvie()) {
-                                    // Boucle qui permet à chaque Fighter de choisir son amélioration
-                                  // for (int i = 0; i < this.listeHeros.length; i++) {
+                    if (fighter.getPointsvie() > ennemiis.getPointsvie()) {
+                        // Boucle qui permet à chaque Fighter de choisir son amélioration
+                        // for (int i = 0; i < this.listeHeros.length; i++) {
 
-                                            Scanner sc = new Scanner(System.in);
-                                            System.out.println("\nFelicitations " + fighter.getName() + ", vous avez gagné votre combat !" +
-                                                    "\nVous avez le droit à une recompense ! " +
-                                                    "\n[1] Augmenter les dégâts causés" +
-                                                    "\n[2] Augmenter votre résistance aux attaques" +
-                                                    "\n[3] Augmenter l'efficacité de la potion et de la nourriture" +
-                                                    "\n[4] Augmenter le nombre de potions ou de nourriture" +
-                                                    "\n[5] Gagne deux flèches (pour le Hunter) ou diminuer le coût en mana pour les sorceleurs");
-                                            int choice = sc.nextInt();
+                        Scanner sc = new Scanner(System.in);
+                        System.out.println("\nFelicitations " + fighter.getName() + ", vous avez gagné votre combat !" +
+                                "\nVous avez le droit à une recompense ! " +
+                                "\n[1] Augmenter les dégâts causés" +
+                                "\n[2] Augmenter votre résistance aux attaques" +
+                                "\n[3] Augmenter l'efficacité de la potion et de la nourriture" +
+                                "\n[4] Augmenter le nombre de potions ou de nourriture" +
+                                "\n[5] Gagne deux flèches (pour le Hunter) ou diminuer le coût en mana pour les sorceleurs");
+                        int choice = sc.nextInt();
 
-                                            switch (choice) {
-                                                case 1:
-                                                    System.out.println("\n" + fighter.getName() + " infligeait des dégâts de "+ fighter.getPvarme()+ " pv !");
-                                                    fighter.increaseDamage();
-                                                    System.out.println("Désormais il inflige des dégâts de " + fighter.getPvarme() + " pv !" + "\n" );
-                                                    break;
-                                                case 2:
-                                                    System.out.println("\n" + fighter.getName() + " avait "+ fighter.getPointsvie()+ " pv et il va en gagner grâce à la récompense !");
-                                                    fighter.increasePointsVie();
-                                                    System.out.println("Désormais " + fighter.getName() + " a "+ fighter.getPointsvie()+ " pv"+ "\n" );
-                                                    break;
-                                                case 3:
-                                                    System.out.println("\n" + fighter.getName() + " a une nourriture qui avait une efficacité de " + fighter.getFoodEfficiency() + " et a une potion qui avait une efficacité de " + fighter.getPotionEfficiency()+ "elles vont en gagner grâce à la récompense !");
-                                                    fighter.increaseFoodEfficiency();
-                                                    fighter.increasePotionEfficiency();
-                                                    System.out.println("Désormais " + fighter.getName() + " a une nourriture qui a une efficacité de " + fighter.getFoodEfficiency() + " et a une potion qui a une efficacité de " + fighter.getPotionEfficiency() +"\n" );
+                        switch (choice) {
+                            case 1:
+                                System.out.println("\n" + fighter.getName() + " infligeait des dégâts de "+ fighter.getPvarme()+ " pv !");
+                                fighter.increaseDamage();
+                                System.out.println("Désormais il inflige des dégâts de " + fighter.getPvarme() + " pv !" + "\n" );
+                                break;
+                            case 2:
+                                System.out.println("\n" + fighter.getName() + " avait "+ fighter.getPointsvie()+ " pv et il va en gagner grâce à la récompense !");
+                                fighter.increasePointsVie();
+                                System.out.println("Désormais " + fighter.getName() + " a "+ fighter.getPointsvie()+ " pv"+ "\n" );
+                                break;
+                            case 3:
+                                System.out.println("\n" + fighter.getName() + " a une nourriture qui avait une efficacité de " + fighter.getFoodEfficiency() + " et a une potion qui avait une efficacité de " + fighter.getPotionEfficiency()+ "elles vont en gagner grâce à la récompense !");
+                                fighter.increaseFoodEfficiency();
+                                fighter.increasePotionEfficiency();
+                                System.out.println("Désormais " + fighter.getName() + " a une nourriture qui a une efficacité de " + fighter.getFoodEfficiency() + " et a une potion qui a une efficacité de " + fighter.getPotionEfficiency() +"\n" );
 
-                                                    break;
-                                                case 4:
-                                                    System.out.println("\n" + fighter.getName() + " avait " + fighter.getNumFood() + " nourritures et avait " + fighter.getNumPotions()+ " potions, elles vont en augmenter grâce à la récompense !");
-                                                    fighter.increaseNumFood();
-                                                    fighter.increaseNumPotions();
-                                                    System.out.println(fighter.getName() + " a désormais : " + fighter.getNumFood() + " nourrituree et a " + fighter.getNumPotions()+ "potions !" + "\n" );
+                                break;
+                            case 4:
+                                System.out.println("\n" + fighter.getName() + " avait " + fighter.getNumFood() + " nourritures et avait " + fighter.getNumPotions()+ " potions, elles vont en augmenter grâce à la récompense !");
+                                fighter.increaseNumFood();
+                                fighter.increaseNumPotions();
+                                System.out.println(fighter.getName() + " a désormais : " + fighter.getNumFood() + " nourrituree et a " + fighter.getNumPotions()+ "potions !" + "\n" );
 
-                                                    break;
-                                                case 5:
-                                                    if (fighter instanceof Hunter) {
-                                                        System.out.println("\nLe hunter " + fighter.getName() + " avait "+ fighter.getNumArrows()+ " flèches ");
-                                                        Hunter hunter = (Hunter) fighter;
-                                                        hunter.increaseNumArrows();
-                                                        System.out.println("Désormais, "+ fighter.getName() + " a " + fighter.getNumArrows()+ " flèches !" + "\n"  );
-                                                    } else if (fighter instanceof SpellCaster) {
-                                                        System.out.println("\nLe lanceur de sorts : " + fighter.getName() + " avait "+ fighter.getMana()+ " mana ");
-                                                        SpellCaster sorcerer = (SpellCaster) fighter;
-                                                        sorcerer.diminuerMana();
-                                                        System.out.println("Désormais, il a " + fighter.getName() + " a "+ fighter.getMana()+ " mana " + "\n" );
-                                                    } else if (fighter instanceof Warrior) {
-                                                            System.out.println("\n" + fighter.getName() + " est un Warrior, tu n'avais pas le droit à cette récompense ! Dommage !");
-                                                    }
-                                                    break;
-                                                default:
-                                                    System.out.println("Option non valide, veuillez réessayer");
-                                            }
-                                       // }
-                                    }
-
-                            // default: System.out.println("Tapez un autre numéro ");
-                            //break;
+                                break;
+                            case 5:
+                                if (fighter instanceof Hunter) {
+                                    System.out.println("\nLe hunter " + fighter.getName() + " avait "+ fighter.getNumArrows()+ " flèches ");
+                                    Hunter hunter = (Hunter) fighter;
+                                    hunter.increaseNumArrows();
+                                    System.out.println("Désormais, "+ fighter.getName() + " a " + fighter.getNumArrows()+ " flèches !" + "\n"  );
+                                } else if (fighter instanceof SpellCaster) {
+                                    System.out.println("\nLe lanceur de sorts : " + fighter.getName() + " avait "+ fighter.getMana()+ " mana ");
+                                    SpellCaster sorcerer = (SpellCaster) fighter;
+                                    sorcerer.diminuerMana();
+                                    System.out.println("Désormais, il a " + fighter.getName() + " a "+ fighter.getMana()+ " mana " + "\n" );
+                                } else if (fighter instanceof Warrior) {
+                                    System.out.println("\n" + fighter.getName() + " est un Warrior, tu n'avais pas le droit à cette récompense ! Dommage !");
+                                }
+                                break;
+                            default:
+                                System.out.println("Option non valide, veuillez réessayer");
+                        }
+                        // }
                     }
+
+                    // default: System.out.println("Tapez un autre numéro ");
+                    //break;
+                }
 
 
                 if (this.listeEnnemis.length == 0 | this.listeHeros.length == 0) {
@@ -267,25 +267,25 @@ public class Game {
                                         System.out.println("\nTapez un autre numéro ");
 
                                 }
-                            }
-                        }
-
-                        // Si le boss est mort
-                        if (Boss.getPointsvie() <= 0) {
-                            // Afficher un message indiquant que le boss est mort
-                            this.listeBoss = this.removeElement(this.listeBoss, randomNumber2);
-                            System.out.println("\n" + Boss.getName() + " est mort ! Les héros sont gagnants ! BRAVOOOO !");
-                            break; // Quitter la boucle
-
-                        }
-
-                        if (fighter.getPointsvie() <= 0) {
-                            // Afficher un message indiquant que le boss est mort
-                            this.listeHeros = this.removeElement(this.listeHeros, randomNumber2);
-                            System.out.println("\n" + fighter.getName() + " est mort ! Les ennemis ont gagné... Vous ferez mieux la prochaine fois");
-                            break; // Quitter la boucle
                         }
                     }
+
+                    // Si le boss est mort
+                    if (Boss.getPointsvie() <= 0) {
+                        // Afficher un message indiquant que le boss est mort
+                        this.listeBoss = this.removeElement(this.listeBoss, randomNumber2);
+                        System.out.println("\n" + Boss.getName() + " est mort ! Les héros sont gagnants ! BRAVOOOO !");
+                        break; // Quitter la boucle
+
+                    }
+
+                    if (fighter.getPointsvie() <= 0) {
+                        // Afficher un message indiquant que le boss est mort
+                        this.listeHeros = this.removeElement(this.listeHeros, randomNumber2);
+                        System.out.println("\n" + fighter.getName() + " est mort ! Les ennemis ont gagné... Vous ferez mieux la prochaine fois");
+                        break; // Quitter la boucle
+                    }
+                }
                 break;
             }
             this.manche++;
@@ -342,14 +342,14 @@ public class Game {
                 // Creation du hero en fonction de sa classe si
                 switch (classeheros) {
                     case 1 :
-                    this.listeHeros[i] = new Hunter(name, 50,2,6,3,3,3,3); confirm = true;
-                    break;
+                        this.listeHeros[i] = new Hunter(name, 50,2,6,3,3,3,3); confirm = true;
+                        break;
                     case 2 : this.listeHeros[i] = new Warrior(name, 50,10,6,3,3,3,3); confirm = true;
-                    break;
+                        break;
                     case 3 : this.listeHeros[i] = new Mage(name, 50, 10,2,2,6,3,3,2,2); confirm = true;
-                    break;
+                        break;
                     case 4 : this.listeHeros[i] = new Healer(name, 50, 10,2,2,6,3,3,2,2); confirm = true;
-                    break;
+                        break;
                     default : System.out.println("Merci de taper un nombre entre 1 et 4 ...");
                         break;
                 }

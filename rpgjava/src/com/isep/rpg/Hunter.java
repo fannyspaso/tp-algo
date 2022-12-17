@@ -77,5 +77,7 @@ public class Hunter extends Hero{
 
     @Override
     public void fight(Combatant combatant) {
+        combatant.Pertepv(this.weapon.getDps());
+
     }
 }
