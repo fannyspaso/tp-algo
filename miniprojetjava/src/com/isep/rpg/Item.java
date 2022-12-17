@@ -3,16 +3,12 @@ package com.isep.rpg;
 public abstract class Item{
     private String name;
 
-    public Item(String name)
-    {
+
+    public Item(String name, int i) {
         this.name = name;
     }
 
-    public Item(String name, int i) {
-    }
-
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 }

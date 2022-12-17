@@ -3,23 +3,18 @@ package com.isep.rpg;
 public abstract class Hero extends Combatant {
 
     // Creation du sac d'objet
-    private Item[] besacecombant = new Item[5];
+    private Item[] addItemSacHero = new Item[5];
 
-
-    public Hero(String n, int hp) {
-        super(n, 50,10);
+    public Hero(String n, int hp, int mana, int manaCost, int spellEfficiency, int damage, int potionEfficiency, int foodEfficiency, int numFood, int numPotions, int numArrows) {
+        super(n, 50,10,10,4,4,5,2,2,2,2,2);
 
         // Ajout d'objet pour regen les pv
-        this.addItemToBesaceheros(new Food(), 0);
-        this.addItemToBesaceheros(new Food(), 1);
-        this.addItemToBesaceheros(new Food(), 2);
+        this.addItemSacHero(new Food(), 0);
+        this.addItemSacHero(new Food(), 1);
+        this.addItemSacHero(new Food(), 2);
     }
 
-    public Item[] getBesacecombant() {
-        return this.besacecombant;}
-
-    public void addItemToBesaceheros(Item i, int placement) {
-        this.besacecombant[placement] = i;}
-
-
+    public void addItemSacHero(Item i, int placement) {
+        this.addItemSacHero[placement] = i;
+    }
 }

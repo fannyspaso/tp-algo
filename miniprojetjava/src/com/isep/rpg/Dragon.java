@@ -2,24 +2,23 @@ package com.isep.rpg;
 
 public class Dragon extends Enemy {
 
-    private Weapon weapon = new Weapon("crache du feu", 5);
+    private String name;
+    private Weapon weapon = new Weapon("boule de feu", 6);
+
 
     public Dragon(String n, int hp) {
         super(n, hp);
+        this.name = n;
+        this.weapon= weapon;
     }
 
     @Override
-    public void Pertepv1(int damage) {
-
+    public int getDamage() {
+        return this.weapon.getDps();
     }
 
-    @Override
     public void fight(Combatant combatant) {
         combatant.Pertepv(this.weapon.getDps());
-
     }
 
-
-    public int getDamage() {
-        return this.weapon.getDps();}
 }

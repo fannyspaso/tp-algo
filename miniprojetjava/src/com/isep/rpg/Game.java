@@ -1,281 +1,439 @@
 package com.isep.rpg;
-
 import java.util.*;
 
 public class Game {
+
     boolean gameOver = false;
     int manche = 1;
 
-    Combatant[] liste_heros;
-    Combatant[] liste_ennemis;
-    Combatant[] liste_boss = new Combatant[1];
+    Combatant[] listeHeros;
+    Combatant[] listeEnnemis;
+    Combatant[] listeBoss = new Boss[1];
 
     public Game() {
 
-        this.chooseNbHeros();
-        this.createAllHeros();
-        //this.Testavecheros();
-        this.Créationennemis();
+
+        this.debutJeu();
+        this.choixNbHeros();
+        this.creerHeros();
+        this.creerEnnemis();
 
 
         while (!this.gameOver) {
             this.affichePlateau();
             System.out.println("");
 
-
-            Combatant[] liste_combatants = new Combatant[this.liste_heros.length + this.liste_ennemis.length];
-            System.arraycopy(this.liste_heros, 0, liste_combatants, 0, this.liste_heros.length);
-            System.arraycopy(this.liste_ennemis, 0, liste_combatants, this.liste_heros.length, this.liste_ennemis.length);
-            //System.out.println("Concatenated Array : " + Arrays.toString(liste_combatants));
-            List<Combatant> list = Arrays.asList(liste_combatants);
+            Combatant[] listeCombatants = new Combatant[this.listeHeros.length + this.listeEnnemis.length];
+            System.arraycopy(this.listeHeros, 0, listeCombatants, 0, this.listeHeros.length);
+            System.arraycopy(this.listeEnnemis, 0, listeCombatants, this.listeHeros.length, this.listeEnnemis.length);
+            List<Combatant> list = Arrays.asList(listeCombatants);
             Collections.shuffle(list);
-            list.toArray(liste_combatants);
-            //System.out.println("Random Array : " + Arrays.toString(liste_combatants));
+            list.toArray(listeCombatants);
 
 
+            // Créer un générateur de nombres aléatoires
+            Random r = new Random();
 
-            for (Combatant fighter : liste_combatants) {
-                List<Combatant> liste = Arrays.asList(this.liste_ennemis);
-                if (liste.contains(fighter)) {
+            for (Combatant fighter : listeCombatants) {
+                // Vérifier si "fighter" est dans la liste des ennemis
+                if (Arrays.asList(this.listeEnnemis).contains(fighter)) {
 
+                    // Générer un nombre aléatoire entre 0 et la longueur de la liste des héros
+                    int randomNumber = r.nextInt(this.listeHeros.length);
+                    Combatant ennemiis = listeHeros[randomNumber];
 
-                    Random r = new Random ();
-                    int randomNumber = r.nextInt(this.liste_heros.length);
-                    Combatant ennemi = liste_heros[randomNumber];
-                    fighter.fight(ennemi);
-                    System.out.println(fighter.getName() + " attaque " + ennemi.getName() + "  les points de pv perdus sont : " + fighter.getDamage());
-
-                    if (ennemi.getPointsvie() <= 0) {
-                        this.liste_heros = this.removeElement(this.liste_heros, randomNumber);
-                        System.out.println(ennemi.getName() + " est mort !");
+                    if (ennemiis.getPointsvie() <= 0) {
+                        // Supprimer l'ennemi de la liste des héros
+                        this.listeHeros = this.removeElement(this.listeHeros, randomNumber);
+                        System.out.println(ennemiis.getName() + " est mort !");
                     }
-
-                }
-
-                else {
+                } else {
                     Scanner scanner = new Scanner(System.in);
-                    System.out.println("Choisissez le type d'action pour votre héros : 1= attaquer, 2= défendre, 3= utiliser un consommable");
+                    System.out.println("\nChoisissez l'action pour " + fighter.getName() + " : " +
+                            "\n[1] attaquer, " +
+                            "\n[2] défendre, " +
+                            "\n[3] utiliser un consommable");
                     int type_action = scanner.nextInt();
-                    Random r = new Random();
-                    int randomNumber = r.nextInt(this.liste_ennemis.length);
+                    Random random1 = new Random();
+                    int randomNumber = random1.nextInt(this.listeEnnemis.length);
                     // recuperation de la cible
-                    Combatant ennemiis = liste_ennemis[randomNumber];
-                    //Combatant cible = liste_heros[this.randomNumber];
+                    Combatant ennemiis = listeEnnemis[randomNumber];
 
-                    if (type_action == 1) {
-                        System.out.println("Le combatant " + fighter.getName() + " attaque l'ennemi : " + ennemiis.getName());
-                        fighter.fight(ennemiis);
 
-                    } else if (type_action == 2) {
-                        System.out.println("Je me protège de " + ennemiis.getName()+ " et je perds seulement 3 point de vie ");
-                        fighter.def(fighter.getPointsvie());
+                    switch (type_action) {
+                        case 1:
 
-                    } else if (type_action == 3) {
-                        System.out.println("J'utilise un consommable");
-                        //private ArrayList<Consumable> liste_consommable = new ArrayList<Consumable>();
-                        // public void useConsommable(Combatant Gentil, Combatant Mechant)
+                            ennemiis.fight(fighter);
+                            System.out.println("\nL'ennemi : " + ennemiis.getName() + " attaque le combatant : " + fighter.getName() + ", le héros perd donc " + ennemiis.getDamage() + " points de vie et il a " + fighter.getPointsvie() + " points de vie");
+                            fighter.fight(ennemiis);
+                            System.out.println("Le héros : " + fighter.getName() + " attaque l'ennemi : " + ennemiis.getName() + ", il perd donc " + fighter.getDamage() + " points de vie et il a " + ennemiis.getPointsvie() + " points de vie");
 
-                        Scanner scanner1 = new Scanner(System.in);
-                        System.out.println("Choisissez le consommable : 1= Manger du lembas, 2= Autre nourriture, 3=boire une potion pour restaurer la mana des lanceurs de sorts");
-                        int conso = scanner1.nextInt();
+                            break;
 
-                        if (conso == 1) {
-                            fighter.win(fighter.getPointsvie());
-                            System.out.print("Grace au lembas, je gagne des points de vie !!");
-                        } else if (conso == 2) {
-                            fighter.consu(fighter.getPointsvie());
-                            System.out.print("Grace à la nourriture,je gagne des points de vie !! ");
+                        case 2:
+                            ennemiis.fight(fighter);
+                            System.out.println("\nL'ennemi : " + ennemiis.getName() + " attaque le combatant : " + fighter.getName() + ", le héros perd donc " + ennemiis.getDamage() + " points de vie et il a " + fighter.getPointsvie() + " points de vie");
+                            fighter.def(fighter.getPointsvie());
+                            System.out.println("Le héros : " + fighter.getName() + " se protège de " + ennemiis.getName() + " et le héros : " + fighter.getName() + " gagne 2 points de vie et il a " + fighter.getPointsvie() + " points de vie");
 
-                        }
-                        //uniquement pour Mage et Healer
-                        else if (conso == 3) {
-                            fighter.consu(fighter.getPointsvie());
-                            System.out.print("Grace à la potion,la mana du spellcaster est restaurée : " + fighter.getName() + " (" + fighter.getPointsvie() + " ) ");
+                            break;
 
-                        } else {
-                            System.out.println("Tapez un autre numéro ");
-                        }
+                        case 3:
+                            ennemiis.fight(fighter);
+                            System.out.println("\nL'ennemi : " + ennemiis.getName() + " attaque le combatant : " + fighter.getName() + ", le héros perd donc " + ennemiis.getDamage() + " points de vie et il a " + fighter.getPointsvie() + " points de vie");
+                            System.out.println("\nLe héros a décidé d'utiliser un consommable");
 
-                        fighter.fight(fighter);
-                        System.out.println(fighter.getName() + " attaque : " + ennemiis.getName() + " | Degats = " + fighter.getDamage());
 
-                        this.liste_ennemis = this.removeElement(this.liste_ennemis, randomNumber);
-                        System.out.println(getClassName(ennemiis.getClass()) + ennemiis.getName() + " est mort !");
+                            Scanner scanner1 = new Scanner(System.in);
+                            System.out.println("\nChoisissez le consommable qu'utilise " + fighter.getName() +
+                                    "\n[1] Manger du lembas pour gagner des points de vie" +
+                                    "\n[2] Autre nourriture pour gagner des points de vie" +
+                                    "\n[3] Boire une potion pour restaurer la mana des lanceurs de sorts (que pour mage et healer)");
+                            int conso = scanner1.nextInt();
+
+                            switch (conso) {
+                                case 1:
+                                    fighter.pointsVieLembas(fighter.getPointsvie());
+                                    System.out.print("\nGrace au lembas " + fighter.getName() + " gagne 2 points de vie et a " + +fighter.getPointsvie() + " points de vie");
+                                    break;
+
+                                case 2:
+                                    fighter.pointsVieNourri(fighter.getPointsvie());
+                                    System.out.print("\nGrace à la nourriture " + fighter.getName() + " gagne 4 points de vie et a " + fighter.getPointsvie() + " points de vie");
+                                    break;
+
+                                case 3:
+                                    if (fighter instanceof SpellCaster) {
+                                        fighter.addMana(fighter.getMana());
+                                        System.out.print("\nGrace à la potion,la mana de " + fighter.getName() + " est restaurée : la mana du combatant est " + fighter.getMana());
+
+                                    } else {
+                                        System.out.println("Le héros doit être un mage ou un healer");
+                                }
+
+                                    break;
+
+                                default:
+                                    System.out.println("Tapez un autre numéro ");
+
+                            }
                     }
-                }
-                if (this.liste_ennemis.length == 0 | this.liste_heros.length == 0) {
+
+                            if (fighter.getPointsvie() > ennemiis.getPointsvie()) {
+                                    // Boucle qui permet à chaque Fighter de choisir son amélioration
+                                  // for (int i = 0; i < this.listeHeros.length; i++) {
+
+                                            Scanner sc = new Scanner(System.in);
+                                            System.out.println("\nFelicitations " + fighter.getName() + ", vous avez gagné votre combat !" +
+                                                    "\nVous avez le droit à une recompense ! " +
+                                                    "\n[1] Augmenter les dégâts causés" +
+                                                    "\n[2] Augmenter votre résistance aux attaques" +
+                                                    "\n[3] Augmenter l'efficacité de la potion et de la nourriture" +
+                                                    "\n[4] Augmenter le nombre de potions ou de nourriture" +
+                                                    "\n[5] Gagne deux flèches (pour le Hunter) ou diminuer le coût en mana pour les sorceleurs");
+                                            int choice = sc.nextInt();
+
+                                            switch (choice) {
+                                                case 1:
+                                                    System.out.println("\n" + fighter.getName() + " infligeait des dégâts de "+ fighter.getPvarme()+ " pv !");
+                                                    fighter.increaseDamage();
+                                                    System.out.println("Désormais il inflige des dégâts de " + fighter.getPvarme() + " pv !" + "\n" );
+                                                    break;
+                                                case 2:
+                                                    System.out.println("\n" + fighter.getName() + " avait "+ fighter.getPointsvie()+ " pv et il va en gagner grâce à la récompense !");
+                                                    fighter.increasePointsVie();
+                                                    System.out.println("Désormais " + fighter.getName() + " a "+ fighter.getPointsvie()+ " pv"+ "\n" );
+                                                    break;
+                                                case 3:
+                                                    System.out.println("\n" + fighter.getName() + " a une nourriture qui avait une efficacité de " + fighter.getFoodEfficiency() + " et a une potion qui avait une efficacité de " + fighter.getPotionEfficiency()+ "elles vont en gagner grâce à la récompense !");
+                                                    fighter.increaseFoodEfficiency();
+                                                    fighter.increasePotionEfficiency();
+                                                    System.out.println("Désormais " + fighter.getName() + " a une nourriture qui a une efficacité de " + fighter.getFoodEfficiency() + " et a une potion qui a une efficacité de " + fighter.getPotionEfficiency() +"\n" );
+
+                                                    break;
+                                                case 4:
+                                                    System.out.println("\n" + fighter.getName() + " avait " + fighter.getNumFood() + " nourritures et avait " + fighter.getNumPotions()+ " potions, elles vont en augmenter grâce à la récompense !");
+                                                    fighter.increaseNumFood();
+                                                    fighter.increaseNumPotions();
+                                                    System.out.println(fighter.getName() + " a désormais : " + fighter.getNumFood() + " nourrituree et a " + fighter.getNumPotions()+ "potions !" + "\n" );
+
+                                                    break;
+                                                case 5:
+                                                    if (fighter instanceof Hunter) {
+                                                        System.out.println("\nLe hunter " + fighter.getName() + " avait "+ fighter.getNumArrows()+ " flèches ");
+                                                        Hunter hunter = (Hunter) fighter;
+                                                        hunter.increaseNumArrows();
+                                                        System.out.println("Désormais, "+ fighter.getName() + " a " + fighter.getNumArrows()+ " flèches !" + "\n"  );
+                                                    } else if (fighter instanceof SpellCaster) {
+                                                        System.out.println("\nLe lanceur de sorts : " + fighter.getName() + " avait "+ fighter.getMana()+ " mana ");
+                                                        SpellCaster sorcerer = (SpellCaster) fighter;
+                                                        sorcerer.diminuerMana();
+                                                        System.out.println("Désormais, il a " + fighter.getName() + " a "+ fighter.getMana()+ " mana " + "\n" );
+                                                    } else if (fighter instanceof Warrior) {
+                                                            System.out.println("\n" + fighter.getName() + " est un Warrior, tu n'avais pas le droit à cette récompense ! Dommage !");
+                                                    }
+                                                    break;
+                                                default:
+                                                    System.out.println("Option non valide, veuillez réessayer");
+                                            }
+                                       // }
+                                    }
+
+                            // default: System.out.println("Tapez un autre numéro ");
+                            //break;
+                    }
+
+
+                if (this.listeEnnemis.length == 0 | this.listeHeros.length == 0) {
                     this.gameOver = true;
                     System.out.println("Un des deux camps n'a plus de combatants ... il a perdu le combat");
                     break;
                 }
-
             }
 
-            if (manche == 5 ) {
+
+            if (manche == 5) {
+
 
                 //this.affichePlateau();
-                //this.gameOver = true;
-                liste_boss[0] = new BOSS("Boss final !!", 100);
+                this.gameOver = true;
+                listeBoss[0] = new Boss("Boss final !!", 60);
 
-                System.out.println("\nLes survivants vont combattre le boss");
 
-              /* while(this.liste_heros.length != 0 | liste_boss.length != 0 ){
-                   System.out.println(liste_boss[0].getName());
-                   System.out.println(fighter.getName() + " attaque : " + BOSS.getName() + " | Degats = " + fighter.getDamage());
+                // Parcourir tous les héros restants dans la liste
+                for (Combatant fighter : this.listeHeros) {
 
-                   // Si l'attakant est mort
-                   if (BOSS.getHealthPoint() <= 0) {
-                       this.liste_boss = this.removeElement1(this.liste_boss);
-                       System.out.println(BOSS.getName() + " est mort !");
-                   }*/
-               }
+                    int randomNumber2 = 0;
+                    Combatant Boss = listeBoss[randomNumber2];
+                    // Faire combattre le héros contre le boss
+                    System.out.println("ATTENTION !!!! Les héros vont affronter le boss final !!!");
+
+                    while (Boss.getPointsvie() >= 0 & fighter.getPointsvie() >= 0) {
+                        Scanner scanner = new Scanner(System.in);
+                        System.out.println("\nChoisissez l'action pour " + fighter.getName() +
+                                "\n[1] attaquer, " +
+                                "\n[2] défendre, " +
+                                "\n[3] utiliser un consommable");
+                        int type_action1 = scanner.nextInt();
+                        Random random2 = new Random();
+                        switch (type_action1) {
+                            case 1:
+
+                                Boss.fight(fighter);
+                                System.out.println("\nLe Boss: " + Boss.getName() + " attaque le combatant : " + fighter.getName() + ", le héros perd donc " + Boss.getDamage() + " points de vie et il a " + fighter.getPointsvie() + " points de vie");
+                                fighter.fight(Boss);
+                                System.out.println("Le héros : " + fighter.getName() + " attaque le Boss : " + Boss.getName() + ", l'ennemi perd donc " + fighter.getDamage() + " points de vie et il a " + Boss.getPointsvie() + " points de vie");
+
+                                break;
+
+                            case 2:
+                                Boss.fight(fighter);
+                                System.out.println("\nLe Boss : " + Boss.getName() + " attaque le combatant : " + fighter.getName() + ", le héros perd donc " + Boss.getDamage() + " points de vie et il a " + fighter.getPointsvie() + " points de vie");
+                                fighter.def(fighter.getPointsvie());
+                                System.out.println("Le héros : " + fighter.getName() + " se protège de " + Boss.getName() + " et le héros : " + fighter.getName() + " gagne 2 points de vie et il a  " + fighter.getPointsvie() + " points de vie");
+
+                                break;
+
+                            case 3:
+                                Boss.fight(fighter);
+                                System.out.println("\nL'ennemi : " + Boss.getName() + " attaque le combatant : " + fighter.getName() + ", le héros perd donc " + Boss.getDamage() + " points de vie et il a " + fighter.getPointsvie() + " points de vie");
+                                System.out.println("\nLe héros a décidé d'utiliser un consommable");
+
+
+                                Scanner scanner1 = new Scanner(System.in);
+                                System.out.println("\nChoisissez le consommable qu'utilise " + fighter.getName() +
+                                        "\n[1] Manger du lembas pour gagner des points de vie" +
+                                        "\n[2] Autre nourriture pour gagner des points de vie" +
+                                        "\n[3] Boire une potion pour restaurer la mana des lanceurs de sorts (que pour mage et healer)");
+                                int conso = scanner1.nextInt();
+
+                                switch (conso) {
+                                    case 1:
+                                        fighter.pointsVieLembas(fighter.getPointsvie());
+                                        System.out.print("\nGrace au lembas " + fighter.getName() + " gagne 2 points de vie et a " + +fighter.getPointsvie() + " points de vie");
+                                        break;
+
+                                    case 2:
+                                        fighter.pointsVieNourri(fighter.getPointsvie());
+                                        System.out.print("\nGrace à la nourriture " + fighter.getName() + " gagne 4 points de vie ! " + fighter.getPointsvie() + " points de vie");
+                                        break;
+
+                                    case 3:
+                                        fighter.addMana(fighter.getMana());
+                                        System.out.print("\nGrace à la potion,la mana de " + fighter.getName() + " est restaurée : la mana du combatant est " + fighter.getMana());
+                                        break;
+
+                                    default:
+                                        System.out.println("\nTapez un autre numéro ");
+
+                                }
+                            }
+                        }
+
+                        // Si le boss est mort
+                        if (Boss.getPointsvie() <= 0) {
+                            // Afficher un message indiquant que le boss est mort
+                            this.listeBoss = this.removeElement(this.listeBoss, randomNumber2);
+                            System.out.println("\n" + Boss.getName() + " est mort ! Les héros sont gagnants ! BRAVOOOO !");
+                            break; // Quitter la boucle
+
+                        }
+
+                        if (fighter.getPointsvie() <= 0) {
+                            // Afficher un message indiquant que le boss est mort
+                            this.listeHeros = this.removeElement(this.listeHeros, randomNumber2);
+                            System.out.println("\n" + fighter.getName() + " est mort ! Les ennemis ont gagné... Vous ferez mieux la prochaine fois");
+                            break; // Quitter la boucle
+                        }
+                    }
+                break;
+            }
             this.manche++;
-
         }
-        this.manche++;
+    }
+
+    private void debutJeu() {
+        System.out.println("Bienvenue dans ton nouveau jeu !");
+        System.out.println("");
+    }
+
+
+    public Combatant[] removeElement( Combatant [] arr, int index ) {
+        // Créer une liste à partir du tableau
+        List<Combatant> list = new ArrayList<>(Arrays.asList(arr));
+
+        // Supprimer l'élément d'indice "index" de la liste
+        list.remove(index);
+
+        // Retourner la liste sous forme de tableau
+        return list.toArray(new Combatant[0]);
     }
 
 
 
 
-    public Combatant[] removeElement( Combatant [] arr, int index ){
-        Combatant[] arrDestination = new Combatant[arr.length - 1];
-        int remainingElements = arr.length - ( index + 1 );
-        System.arraycopy(arr, 0, arrDestination, 0, index);
-        System.arraycopy(arr, index + 1, arrDestination, index, remainingElements);
-        //System.out.println("Elements -- "  + Arrays.toString());
-        return arrDestination;
-    }
-
-
-
-
-
-    public void Testavecheros() {
-        this.liste_heros = new Combatant[4];
-        this.liste_ennemis = new Combatant[4];
-        this.liste_heros[0] = new Hunter("hunter", 50);
-        this.liste_heros[1] = new Warrior("warrior", 50);
-        this.liste_heros[2] = new Healer("healer", 50, 10);
-        this.liste_heros[3] = new Mage("mage", 50, 10);
-    }
-
-
-    public void chooseNbHeros() {
+    public void choixNbHeros() {
         // Choix du nombre de Heros
         int nbCombatant = SafeIntScanner("Choisissez le nombre de héros : ");
         // Liste des Heros du joueur
-        this.liste_heros = new Combatant[nbCombatant];
-        // Liste des Enemy
-        this.liste_ennemis = new Combatant[nbCombatant];
+        this.listeHeros = new Combatant[nbCombatant];
+        // Liste des Ennemis
+        this.listeEnnemis = new Combatant[nbCombatant];
     }
 
 
-    public void createAllHeros() {
+
+
+    public void creerHeros() {
         // Creation des heros
-        for (int i = 0; i < this.liste_heros.length; i++) {
-            String name = SafeStringScanner("Héros " + (i+1) + " : Veuillez choisir le nom de votre héros : ");
+        for (int i = 0; i < this.listeHeros.length; i++) {
+            String name = SafeStringScanner("\nHéros " + (i+1) + " : Veuillez choisir le nom de votre héros : ");
 
             // Selection de la classe et creation du hero
             boolean confirm = false;
-            int user;
+            int classeheros;
             while (!confirm) {
                 // Selection de la classe
-                user = SafeIntScanner("Choisissez la classe du héros \" 1 : Hunter 2 : Warrior 3: Mage 4: Healer");
+                classeheros = SafeIntScanner("\nChoisissez la classe du héros " +
+                        "\n[1] Hunter " +
+                        "\n[2] Warrior " +
+                        "\n[3] Mage " +
+                        "\n[4] Healer");
                 // Creation du hero en fonction de sa classe si
-                switch (user) {
-                    case 1 : {this.liste_heros[i] = new Hunter(name, 50); confirm = true;}
-                    case 2 : {this.liste_heros[i] = new Warrior(name, 50); confirm = true;}
-                    case 3 : {this.liste_heros[i] = new Mage(name, 50, 10); confirm = true;}
-                    case 4 : {this.liste_heros[i] = new Healer(name, 50, 10); confirm = true;}
-                    //default : System.out.println("Merci de taper un nombre entre 1 et 4 ...");
+                switch (classeheros) {
+                    case 1 :
+                    this.listeHeros[i] = new Hunter(name, 50,2,6,3,3,3,3); confirm = true;
+                    break;
+                    case 2 : this.listeHeros[i] = new Warrior(name, 50,10,6,3,3,3,3); confirm = true;
+                    break;
+                    case 3 : this.listeHeros[i] = new Mage(name, 50, 10,2,2,6,3,3,2,2); confirm = true;
+                    break;
+                    case 4 : this.listeHeros[i] = new Healer(name, 50, 10,2,2,6,3,3,2,2); confirm = true;
+                    break;
+                    default : System.out.println("Merci de taper un nombre entre 1 et 4 ...");
+                        break;
                 }
             }
         }
     }
 
-    public void Créationennemis() {
-        for (int j = 0; j < this.liste_ennemis.length; j++) {
-            Scanner scanner2 = new Scanner(System.in);
-            System.out.println( "Ennemi " + (j+1) +" : Veuillez saisir le nom de l'ennemi: ");
-            String ennemii = scanner2.next();
-            this.liste_ennemis[j] = new Dragon(ennemii, 50);
+
+
+    public void creerEnnemis() {
+        Scanner scanner = new Scanner(System.in);
+        for (int i = 0; i < this.listeEnnemis.length; i++) {
+            System.out.println("\nEnnemi " + (i + 1) + " : Veuillez saisir le nom de l'ennemi: ");
+            String ennemiName = scanner.next();
+            this.listeEnnemis[i] = new Dragon(ennemiName, 50);
         }
     }
+
 
 
 
     public static String getClassName(Class c) {
         String className = c.getName();
-        int firstChar;
-        firstChar = className.lastIndexOf('.') + 1;
+        int firstChar = className.lastIndexOf('.') + 1;
+
         if (firstChar > 0) {
             className = className.substring(firstChar);
         }
         return className;
     }
 
-    public void affichePlateau(){
-        System.out.println("\n-----------------------------------------------------------------------------------");
-        System.out.println(("Vague numéro : " + this.manche + "\n"));
-        for (Combatant c : this.liste_heros) {
-            System.out.println(getClassName(c.getClass())
-                    + "[" + c.getName()
-                    + "] : Point de vie = "
-                    + c.getPointsvie()
-                    + " | Dommage causé ="
-                    + c.getDamage()
-            );
+
+    public void affichePlateau() {
+        // Imprime une bordure en haut du plateau
+        System.out.println("\n_________________________________________________________________________________________");
+
+        // Imprime la vague actuelle
+        System.out.println("Vague numéro " + this.manche + "\n");
+        System.out.println("Vous avez choisi les combatants suivants : "+"\n");
+
+        // Imprime les informations de chaque combattant
+        for (Combatant c : this.listeHeros) {
+            System.out.println(getClassName(c.getClass()) + "(" + c.getName() + ") : Points de vie = " + c.getPointsvie());
         }
-        for (Combatant c :this.liste_ennemis) {
-            System.out.println(getClassName(c.getClass())
-                    + "[" + c.getName()
-                    + "] : Point de vie = "
-                    + c.getPointsvie()
-                    + " | Dommage causé = "
-                    + c.getDamage()
-            );
+        for (Combatant c : this.listeEnnemis) {
+            System.out.println(getClassName(c.getClass()) + "(" + c.getName() + ") : Points de vie = " + c.getPointsvie());
         }
-        System.out.println("___________________________________________________________________________________");
     }
 
-    public void afficheCamp(Combatant[] camp, String type){
-        System.out.println("\n-----------------------------------------------------------------------------------");
-        for (Combatant c : camp) {
-            System.out.println(c.getClass() + " - " + c.getName() + " - " + c.getPointsvie());
-            if (Objects.equals(type, "g")) {
-                // Affiche une list pour les combattants de class fille heros
-                System.out.println("                             " + Arrays.toString(((Hero) c).getBesacecombant()));
-            }
-        }
-        System.out.println("-----------------------------------------------------------------------------------");
-    }
 
     public int SafeIntScanner(String text) {
-        System.out.println(text);
-        while(true) {
-            try {
-                Scanner sc = new Scanner(System.in);
-                return sc.nextInt();
-            }
-            catch (InputMismatchException e) {
-                System.out.println("Erreur, recommencez");
+        Scanner sc = new Scanner(System.in);
+
+        while (true) {
+            System.out.println(text);
+
+            if (sc.hasNextInt()) {
+                int input = sc.nextInt();
+
+                if (input >= Integer.MIN_VALUE && input <= Integer.MAX_VALUE) {
+                    return input;
+                } else {
+                    System.out.println("Erreur, la valeur saisie est en dehors de la plage des entiers représentables en Java");
+                }
             }
         }
     }
+
 
     public String SafeStringScanner(String text) {
-        System.out.println(text);
-        while(true) {
-            try {
-                Scanner sc = new Scanner(System.in);
-                return sc.nextLine();
-            }
-            catch (InputMismatchException e) {
-                System.out.println("Erreur, recommencez");
+        Scanner sc = new Scanner(System.in);
+
+        while (true) {
+            System.out.println(text);
+
+            if (sc.hasNextLine()) {
+                String input = sc.nextLine();
+
+                try {
+                    return input;
+                } catch (InputMismatchException e) {
+                    System.out.println("Erreur, recommencez");
+                }
             }
         }
     }
-
-
 }
